@@ -23,10 +23,22 @@ class Stack:
         return True
 
     def pushList(self, elist):
-        pass
+        """Adds an entire list to the stack but will return false if there is a lack of available space."""
+        if (len(elist) + self.__count) > len(self.__dat):
+            # If the new list plus the list of stack elements is longer than the list was initialized to handle:
+            return False
+
+        for e in elist: # For every element in the list that will be added
+            self.__dat[self.__count] = e # add the element to the stack
+            self.__count += 1 # increment the count of elements by one
+        return True
 
     def pop(self):
-        pass
+        """Returns the element at the top of the stack"""
+        to_return = self.__dat[self.__count - 1]
+        self.__count -= 1
+
+        return to_return
 
     def peek(self):
         """Looks at and returns the top of the stack"""
@@ -38,6 +50,6 @@ class Stack:
 
     def __str__(self):
         to_return = ""
-        for x in range(self.__count): # Iterate over the length of the stack and just start appending values
-            to_return += f"{self.__dat[x - 1]}\t"
+        for i in range(self.__count): # Iterate over the length of the stack and just start appending values
+            to_return += f"{self.__dat[i]}\t"
         return to_return

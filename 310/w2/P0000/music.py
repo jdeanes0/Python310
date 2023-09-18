@@ -7,7 +7,7 @@ Because of how python deal with constructors and the inheritance of variables, t
 I AM DROWNING IN BOILERPLATE STEVE
 
 @author jdeanes0
-@version 9/12/23
+@version 9/18/23
 
 Classes for categorizing the songs in the spotify file. Anything that is not part of our dataset is considered to 
 be "Generic".
@@ -93,7 +93,7 @@ class Music(media.Media):
     def get_popularity(self):
         return self._popularity
 
-    # behavior to by polymorphise'm'd
+    # behavior to be polymorphise'm'd
     def play(self):
         """Returns a string about music"""
 
@@ -114,6 +114,9 @@ class Pop(Music):
 class Rock(Music):
     """For the rock genre, inherits the properties of Music"""
 
+    def play(self):
+        return "I love rock and roll! -Joan Jett"
+
 class Dembow(Music):
     """For the dembow genre, inherits the properties of Music"""
 
@@ -132,14 +135,26 @@ class HipHop(RnB):
 class Rap(HipHop):
     """For the rap genre, inherits the properties of HipHop"""
 
+    def play(self):
+        return "Life without knowledge is death in disguise, Kalib Kweli"
+
 class Metal(Rock):
     """For the metal genre, inherits the properties of Rock"""
 
 class Punk(Rock):
     """For the punk genre, inherits the properties of Rock"""
 
+    def play(self):
+        return "Punk is musical freedom, Kurt Cobain"
+
 class Country(Rock):
     """For the country genre, inherits the properties of Rock"""
 
+    def play(self):
+        return "I walk the line, Johnny Cash"
+
 class VikingMetal(Metal):
     """For the viking metal genre, inherits the properties of Metal"""
+
+    def play(self):
+        return "Skål!"

@@ -17,13 +17,22 @@ def run_count(n):
 def run_constant(n):
     print(n)
 
-def run_log(n):
-    count = 0
-    while count < n: # THIS STILL DOESN'T WORK!
+def run_log(n: int):
+    """
+    Takes the log base 2 of the provided number, then prints it.
+    Only results in whole numbers because I'm not a psychopath.
+    """
+    for i in range(0, n):
+        if n/2 < 1:
+            break
         n /= 2
-        count += 1
     
-    print(count)
+    print(i)
+
+def fib(n):
+    if n <= 2:
+        return 1
+    return fib(n-2) + fib(n-1)
 
 def main():
     """Main function that is cool and good."""
@@ -41,5 +50,8 @@ def main():
     run_log(300000)
     log_time = time.time() - start3
     print(f"O(lg n): {log_time}")
+
+    print(fib(100))
+
 
 main()

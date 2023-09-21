@@ -22,11 +22,22 @@ free_bird = music.Rock("Lynyrd Skynrd", 1973, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 print(free_bird.play())
 print(free_bird.get_valence())
 
-def determine_genre(specific_genre):
+def determine_genre(specific_genre: str):
     """
     Honestly a quite messy method that determines the genre that a particular song belongs to.
     Returns string out of a set of possible strings.
     """
+
+    specific_genre = specific_genre.lower()
+    genres = ["indie", "electronic", "r&b", "pop", "indie rock", "dembow", "experimental", "rock", "hiphop", "rap", "viking metal", "punk", "country", "metal"]
+    """Contains all known genres, used to match."""
+
+    for g in genres:            ###        ###                             ###
+        if g in specific_genre: ### STEVE! ### THIS IS WHY PYTHON IS GOOD! ###
+            print(g)
+            return g            ###        ###                             ###
+        
+    return "generic" # If a genre can't be matched, go and return that it's generic.
 
 def load_students():
     """
@@ -72,7 +83,30 @@ def load_songs() -> list[music.Music]:
         line = songs_file.readline().split(",") # Place each line of the file into its own list upon splitting it at commas
 
         # Large if statement to determine genre based on line[4]
-        determine_genre(line[4]) # Kidding! It's been encapsulated/abstracted/whatever.
+        genre = determine_genre(str(line[3])) # Kidding! It's been encapsulated/abstracted/whatever.
+
+        current_song = None # initialize variable
+
+        match genre:
+            case "generic":
+                # title:1, release year:4, artist:2, index:0, genre:3, continues normally from here
+                current_song = music.Generic(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "indie":
+                current_song = music.Indie(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "electronic":
+                current_song = music.Electronic(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "r&b":
+                current_song = music.RnB(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "pop":
+                current_song = music.Pop(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "rock":
+                current_song = music.Rock(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "dembow":
+                current_song = music.Dembow(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "experimental":
+                current_song = music.Experimental(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+
+
 
     return songs # There will be a lot above here to work out.
 

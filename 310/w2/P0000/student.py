@@ -12,12 +12,25 @@ class Student310:
     __dogs_cats = None
     __anime = None
     __preferred_genre = None
+    __recommendation_1 = None
+    __recommendation_2 = None
 
     def __init__(self, name, dogs_cats, anime, preferred_genre):
         self.__name = name
         self.__dogs_cats = dogs_cats
         self.__anime = anime
         self.__preferred_genre = preferred_genre
+
+    def set_recommendations(self, recommendation1, recommendation2):
+        """Set the recommendations for the Student310 object"""
+        self.__recommendation_1 = recommendation1
+        self.__recommendation_2 = recommendation2
+
+    def get_recommendation1(self):
+        return self.__recommendation_1
+    
+    def get_recommendation2(self):
+        return self.__recommendation_2
 
     def get_name(self):
         return self.__name

@@ -29,7 +29,8 @@ def determine_genre(specific_genre: str):
     """
 
     specific_genre = specific_genre.lower()
-    genres = ["indie", "electronic", "r&b", "pop", "indie rock", "dembow", "experimental", "rock", "hiphop", "rap", "viking metal", "punk", "country", "metal"]
+    genres = ["indie", "electronic", "r&b", "pop", "indie rock", "dembow", "experimental",
+              "rock", "hiphop", "hip hop", "rap", "viking metal", "punk", "country", "metal"]
     """Contains all known genres, used to match."""
 
     for g in genres:            ###        ###                             ###
@@ -37,7 +38,7 @@ def determine_genre(specific_genre: str):
             print(g)
             return g            ###        ###                             ###
         
-    return "generic" # If a genre can't be matched, go and return that it's generic.
+    return "generic" # If a genre can't be matched, return that it's generic.
 
 def load_students():
     """
@@ -75,9 +76,9 @@ def load_songs() -> list[music.Music]:
     songs_file = open("310/w2/P0000/Spotify-2000.csv", "r", encoding="utf8")
     songs_file.readline() # Skip the header line
 
-    # Acquire space in memory for 1,994 Music objects
+    # Acquire space in memory for 1,994 references
     # NOTE: Genre can be found at index no.4
-    songs = [music.Music(None, None, None, None, None, None, None, None, None, None, None, None, None, None, None)]*1994
+    songs = []*1994
 
     for i in range(songs_len):
         line = songs_file.readline().split(",") # Place each line of the file into its own list upon splitting it at commas
@@ -105,10 +106,32 @@ def load_songs() -> list[music.Music]:
                 current_song = music.Dembow(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "experimental":
                 current_song = music.Experimental(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "indie rock":
+                current_song = music.IndieRock(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "hiphop":
+                current_song = music.HipHop(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "hip hop": # Just in case that it's spelled differently.
+                current_song = music.HipHop(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "rap":
+                current_song = music.Rap(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "metal":
+                current_song = music.Metal(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "punk":
+                current_song = music.Punk(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "country":
+                current_song = music.Country(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "viking metal":
+                current_song = music.VikingMetal(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case _:
+                print("If you get this message, then they is an issue with the data set.")
 
-
+        songs[i] = current_song
 
     return songs # There will be a lot above here to work out.
+
+def get_recommendations(students, songs):
+    """Generates 2 recommended songs for each student."""
+    pass
 
 def main():
     """Driver function that runs the script to access the data and objects"""
@@ -117,5 +140,9 @@ def main():
 
     students = load_students()
     songs = load_songs() # I am dreading coding this function
+
+    # Ok. All of the songs and students have been loaded.
+    # Now, we need to get the recommendations.
+    recommendations = get_recommendations(students, songs)
 
 main()

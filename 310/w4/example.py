@@ -37,21 +37,21 @@ def fib(n):
 def main():
     """Main function that is cool and good."""
     start1 = time.time()
-    run_count(300000)
+    run_count(900000)
     linear_time = time.time() - start1
     print(f"O(n): {linear_time}")
 
     start2 = time.time()
-    run_constant(300000)
+    run_constant(900000)
     constant_time = time.time() - start2
     print(f"O(1): {constant_time}")
 
     start3 = time.time()
-    run_log(300000)
+    run_log(900000)
     log_time = time.time() - start3
     print(f"O(lg n): {log_time}")
 
-    print(fib(100))
+    print(fib(1))
 
 
 main()

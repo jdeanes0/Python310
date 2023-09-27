@@ -11,6 +11,7 @@ Driver class for P000
 
 import media
 import music
+import random as r
 from student import Student310 as st
 
 john_lennon_fortnite = media.Media("Fortnite", 2017, "John Lennon")
@@ -29,9 +30,9 @@ def determine_genre(specific_genre: str):
     """
 
     specific_genre = specific_genre.lower()
-    genres = ["indie", "electronic", "r&b", "pop", "indie rock", "dembow", "experimental",
-              "rock", "hiphop", "hip hop", "rap", "viking metal", "punk", "country", "metal"]
-    """Contains all known genres, used to match."""
+    genres = ["indie", "electronic", "r&b", "pop", "indie rock", "dembow", "experimental", "80's",
+              "rock", "rap", "viking metal", "punk", "country", "metal", "g funk", "east coast hip hop", "detroit hip hop", "hip hop"]
+    # Contains all known genres, used to match.
 
     for g in genres:            ###        ###                             ###
         if g in specific_genre: ### STEVE! ### THIS IS WHY PYTHON IS GOOD! ###
@@ -78,9 +79,9 @@ def load_songs() -> list[music.Music]:
 
     # Acquire space in memory for 1,994 references
     # NOTE: Genre can be found at index no.4
-    songs = []*1994
+    songs = []
 
-    for i in range(songs_len):
+    for _ in range(songs_len):
         line = songs_file.readline().split(",") # Place each line of the file into its own list upon splitting it at commas
 
         # Large if statement to determine genre based on line[4]
@@ -108,12 +109,16 @@ def load_songs() -> list[music.Music]:
                 current_song = music.Experimental(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "indie rock":
                 current_song = music.IndieRock(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
-            case "hiphop":
-                current_song = music.HipHop(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "hip hop": # Just in case that it's spelled differently.
                 current_song = music.HipHop(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "rap":
                 current_song = music.Rap(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "g funk":
+                current_song = music.Rap(line[1], line[4], line[2], line[0], "rap", line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "east coast hip hop":
+                current_song = music.Rap(line[1], line[4], line[2], line[0], "rap", line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "detroit hip hop":
+                current_song = music.Rap(line[1], line[4], line[2], line[0], "rap", line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "metal":
                 current_song = music.Metal(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "punk":
@@ -122,27 +127,31 @@ def load_songs() -> list[music.Music]:
                 current_song = music.Country(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case "viking metal":
                 current_song = music.VikingMetal(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
+            case "80's":
+                current_song = music.Eighties(line[1], line[4], line[2], line[0], genre, line[5], line[6], line[7], line[8], line[9], line[10], line[11], line[12], line[13], line[14])
             case _:
-                print("If you get this message, then they is an issue with the data set.")
+                print("If you get this message, then there is an issue with the data set.")
 
-        songs[i] = current_song
+        songs.append(current_song)
 
     return songs # There will be a lot above here to work out.
 
 def get_student_song_array(songs, genre, poss_student_songs):
+    """Takes an empty array or a partially filled array and fills it with songs that match the genre"""
     for song in songs:
-        if song[4] == s_genre:
+        if song.get_genre() == genre:
             poss_student_songs.append(song) # If we find a song of the correct genre, add it to a list of possible songs
 
     return poss_student_songs
 
-def get_recommendations(students, songs):
+def set_recommendations(students: list[st], songs):
     """Generates 2 recommended songs for each student."""
     # Iterate through our list of students
     for s in students:
         s_genre = s.get_genre().lower() # Get the student's preferred genre
         # Iterate through the list of songs
         poss_student_songs = []
+        poss_student_songs = get_student_song_array(songs, s_genre, poss_student_songs)
 
         # If a song is not found, then we need to go up in the inheritance tree until an actual song is found.
         if len(poss_student_songs) < 2:
@@ -150,11 +159,44 @@ def get_recommendations(students, songs):
                 s_genre = "metal"
             if s_genre == "dembow":
                 s_genre = "generic"
+            if s_genre == "rap":
+                s_genre = "hip hop"
+            if s_genre == "r&b":
+                s_genre = "generic"
+            if s_genre == "experimental":
+                s_genre = "indie"
+            if s_genre == "indie rock":
+                s_genre = "indie"
+            if s_genre == "80's":
+                s_genre = "pop"
+            if s_genre == "electronic":
+                s_genre = "generic"
+
+            poss_student_songs = get_student_song_array(songs, s_genre, poss_student_songs) # call it again with the new genre
+
+        # With the list of possible songs, we now need to randomly set two for each student.
+        # Still iterating through the students, choose two random indicies between 0 and len(poss_student_songs)
+        max_index = len(poss_student_songs) - 1
+        print(max_index)
+        i1 = r.randint(0, max_index)
+        i2 = r.randint(0, max_index)
+
+        if i1 == i2: # We will have a problem if they equal each other
+            # We will simply increment the second one. However
+            if i2 == max_index: # If we are at the end of the list, we need to set it to the beginning.
+                i2 = int(0)
+            else:
+                i2 += 1
         
-        # With the list of possible songs, we now need to randomly select two.
+        song1 = poss_student_songs[i1]
+        song2 = poss_student_songs[i2]
 
+        print(song1.play())
+        print(song2.play())
 
+        s.set_recommendations(song1, song2) # Sets the two recommendations!
 
+        
 
 def main():
     """Driver function that runs the script to access the data and objects"""
@@ -166,6 +208,6 @@ def main():
 
     # Ok. All of the songs and students have been loaded.
     # Now, we need to get the recommendations.
-    recommendations = get_recommendations(students, songs)
+    set_recommendations(students, songs)
 
 main()

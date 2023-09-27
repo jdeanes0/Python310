@@ -1,26 +1,26 @@
-﻿Name,Dogs/Cats,Anime +/-,Preferred Genre
-Abbey,C,-,Indie
-Abby,C,+,Indie Rock
-Alex,D,-,Rock
-Alonso,D,+,80's
-Bryce,D,+,Rock
-Colby,D,+,Rock
-Courage,D,+,R&B
-Dillon,C,+,Country
-Eric,D,-,80's
-Ethan,D,-,Rap
-Jay,D,+,Indie Rock
-Jeffrey,D,+,Dembow
-Jeremy,C,+,Indie Rock
-Jonathan,D,-,Indie Rock
-Khalil,D,+,Rap
-Nick,D,-,Rap
-Rahsaan,D,+,R&B
-Ricardo,D,+,Rap
-RJ,D,-,80's
-Rob,C,-,Viking Metal
-Stephen O,D,+,R&B
-Stephen S,C,+,Electronic
-Steve K,D,+,Punk
-Tim,D,+,Rock
-Tre,C,-,Experimental
+﻿Name,Dogs/Cats,Anime +/-,Preferred Genre,
+Abbey,C,-,Indie,
+Abby,C,+,Indie Rock,
+Alex,D,-,Rock,
+Alonso,D,+,80's,
+Bryce,D,+,Rock,
+Colby,D,+,Rock,
+Courage,D,+,R&B,
+Dillon,C,+,Country,
+Eric,D,-,80's,
+Ethan,D,-,Rap,
+Jay,D,+,Indie Rock,
+Jeffrey,D,+,Dembow,
+Jeremy,C,+,Indie Rock,
+Jonathan,D,-,Indie Rock,
+Khalil,D,+,Rap,
+Nick,D,-,Rap,
+Rahsaan,D,+,R&B,
+Ricardo,D,+,Rap,
+RJ,D,-,80's,
+Rob,C,-,Viking Metal,
+Stephen O,D,+,R&B,
+Stephen S,C,+,Electronic,
+Steve K,D,+,Punk,
+Tim,D,+,Rock,
+Tre,C,-,Experimental,

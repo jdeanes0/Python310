@@ -11,7 +11,7 @@ class Student310:
     __name = None
     __dogs_cats = None
     __anime = None
-    __preferred_genre = None
+    __preferred_genre = ""
     __recommendation_1 = None
     __recommendation_2 = None
 
@@ -28,7 +28,7 @@ class Student310:
 
     def get_recommendation1(self):
         return self.__recommendation_1
-    
+
     def get_recommendation2(self):
         return self.__recommendation_2
 
@@ -41,7 +41,7 @@ class Student310:
     def get_anime(self):
         return self.__anime
 
-    def get_genre(self):
+    def get_genre(self) -> str:
         return self.__preferred_genre
 
     def __str__(self):

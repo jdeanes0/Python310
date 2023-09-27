@@ -158,3 +158,6 @@ class VikingMetal(Metal):
 
     def play(self):
         return "Skål!"
+
+class Eighties(Pop):
+    """For the 80's genre that snuck by me, inherits the properties of pop"""

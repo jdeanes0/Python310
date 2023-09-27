@@ -22,13 +22,13 @@ That way, the objects themselves can be accessed easily
 
 class Node:
     """Object that holds the node data"""
-    data = None
+    value = None
     left = None
     right = None
 
-    def __init__(self, data, left=None, right=None):
+    def __init__(self, value, left=None, right=None):
         """Constructor function, can be called with detailed children or without detailed children"""
-        self.data = data
+        self.value = value
         self.left = left
         self.right = right
 
@@ -37,16 +37,26 @@ class Tree:
     count = 0
     root = None # of type node
 
-    def addagain(self, root: Node, element):
-        """Why can't python find this function?"""
-        print("hey?")
-        if element <= root.data:
-            pass
+    def make_node(self, element):
+        self.count += 1
+        return Node(element)
 
-    def add(self, element):
-        if self.count == 0:
-            self.root = Node(element)
+    def insert(self, value):  # this is the function that gets called, pay attention that we're not sending `root`
+        if self.root is None:
+            self.root = Node(value)
             self.count = 1
         else:
-            addagain(self.root, element)
-    
+            self._insert(self.root, value) # here's the call to a "private" function to which we are passing nodes down, starting from root
+
+    def _insert(self, node, value):
+        print(value)
+        if value < node.value:  # we know that `node` cannot be None - so it's safe to check its value! 
+            if node.left:
+                self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
+            else:
+                node.left = self.make_node(value)
+        else:
+            if node.right:
+                self._insert(node.right, value)
+            else:
+                node.right = self.make_node(value)

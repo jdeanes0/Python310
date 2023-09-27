@@ -129,9 +129,32 @@ def load_songs() -> list[music.Music]:
 
     return songs # There will be a lot above here to work out.
 
+def get_student_song_array(songs, genre, poss_student_songs):
+    for song in songs:
+        if song[4] == s_genre:
+            poss_student_songs.append(song) # If we find a song of the correct genre, add it to a list of possible songs
+
+    return poss_student_songs
+
 def get_recommendations(students, songs):
     """Generates 2 recommended songs for each student."""
-    pass
+    # Iterate through our list of students
+    for s in students:
+        s_genre = s.get_genre().lower() # Get the student's preferred genre
+        # Iterate through the list of songs
+        poss_student_songs = []
+
+        # If a song is not found, then we need to go up in the inheritance tree until an actual song is found.
+        if len(poss_student_songs) < 2:
+            if s_genre == "viking metal":
+                s_genre = "metal"
+            if s_genre == "dembow":
+                s_genre = "generic"
+        
+        # With the list of possible songs, we now need to randomly select two.
+
+
+
 
 def main():
     """Driver function that runs the script to access the data and objects"""

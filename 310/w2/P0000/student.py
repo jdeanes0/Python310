@@ -21,7 +21,7 @@ class Student310:
         self.__anime = anime
         self.__preferred_genre = preferred_genre
 
-    def set_recommendations(self, recommendation1, recommendation2):
+    def set_recommendations(self, recommendation1, recommendation2): # Can I see this?
         """Set the recommendations for the Student310 object"""
         self.__recommendation_1 = recommendation1
         self.__recommendation_2 = recommendation2

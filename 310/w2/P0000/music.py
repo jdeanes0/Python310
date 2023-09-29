@@ -7,7 +7,7 @@ Because of how python deal with constructors and the inheritance of variables, t
 I AM DROWNING IN BOILERPLATE STEVE
 
 @author jdeanes0
-@version 9/18/23
+@version 9/28/23
 
 Classes for categorizing the songs in the spotify file. Anything that is not part of our dataset is considered to 
 be "Generic".
@@ -92,6 +92,12 @@ class Music(media.Media):
 
     def get_popularity(self):
         return self._popularity
+    
+    def get_song_info(self):
+        return f"{self._title} by {self._artist}"
+    
+    def __str__(self):
+        return f"{self._title} by {self._artist}"
 
     # behavior to be polymorphise'm'd
     def play(self):
@@ -102,14 +108,23 @@ class Music(media.Media):
 class Indie(Music):
     """For the indie genre, inherits the properties of Music"""
 
+    def play(self):
+        return "Music comes from the heart, not a big studio -Me"
+
 class Electronic(Music):
     """For the electronic genre, inherits the properties of Music"""
+
+    def play(self):
+        return "Harder, better, faster, stronger. -Daft Punk"
 
 class RnB(Music):
     """For the R&B genre, inherits the properties of Music"""
 
 class Pop(Music):
     """For the pop genre, inherits the properties of Music"""
+
+    def play(self):
+        return "*POP* Noice. -That guy from that one meme"
 
 class Rock(Music):
     """For the rock genre, inherits the properties of Music"""
@@ -120,11 +135,17 @@ class Rock(Music):
 class Dembow(Music):
     """For the dembow genre, inherits the properties of Music"""
 
+    def play(self):
+        return "Unfortunately, this statement will never be seen with the original data set :("
+
 class Generic(Music):
     """For music without one of our specified genres, this class also inherits the properties of Music"""
 
 class Experimental(Indie):
     """For the experimental genre, inherits the properties of Indie"""
+
+    def play(self):
+        return "Science!"
 
 class IndieRock(Indie):
     """For the indie rock genre, inherits the properties of Indie"""
@@ -140,6 +161,9 @@ class Rap(HipHop):
 
 class Metal(Rock):
     """For the metal genre, inherits the properties of Rock"""
+
+    def play(self):
+        return "I'M PULLING YOUR STRINGS -Metallica"
 
 class Punk(Rock):
     """For the punk genre, inherits the properties of Rock"""

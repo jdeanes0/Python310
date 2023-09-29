@@ -2,7 +2,7 @@
 Class that contains information for Students in the interests.csv file
 
 @author jdeanes0
-@version 9/18/23
+@version 9/28/23
 """
 
 class Student310:
@@ -45,4 +45,5 @@ class Student310:
         return self.__preferred_genre
 
     def __str__(self):
-        return f"Name: {self.__name} Animal: {self.__dogs_cats} Likes Anime?: {self.__anime} Preferred Genre: {self.__preferred_genre}"
+        return f"Since {self.__name} likes {self.__preferred_genre}, they might enjoy {self.__recommendation_1.get_song_info()}, or {self.__recommendation_2.get_song_info()}.\n {self.__recommendation_1.play()} \n {self.__recommendation_1.play()}\n"
+        # return f"Name: {self.__name} Animal: {self.__dogs_cats} Likes Anime?: {self.__anime} Preferred Genre: {self.__preferred_genre}"

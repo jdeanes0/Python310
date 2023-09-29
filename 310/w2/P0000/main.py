@@ -6,12 +6,13 @@ Driver class for P000
 3: I don't know right now but I'll figure it out later go go go
 
 @author jdeanes0
-@version 9/18/23
+@version 9/28/23
 """
 
 import media
 import music
 import random as r
+
 from student import Student310 as st
 
 john_lennon_fortnite = media.Media("Fortnite", 2017, "John Lennon")
@@ -63,7 +64,9 @@ def load_students():
             is_anime_liker = True
 
         students[i] = st(line[0], line[1], is_anime_liker, line[3]) # Construct a student and insert them into the list
-    
+
+    length_reader.close()
+    interests.close()
     return students
 
 def load_songs() -> list[music.Music]:
@@ -134,6 +137,8 @@ def load_songs() -> list[music.Music]:
 
         songs.append(current_song)
 
+    length_reader.close()
+    songs_file.close()
     return songs # There will be a lot above here to work out.
 
 def get_student_song_array(songs, genre, poss_student_songs):
@@ -197,6 +202,18 @@ def set_recommendations(students: list[st], songs):
         s.set_recommendations(song1, song2) # Sets the two recommendations!
 
         
+def print_recommendations(students):
+    """
+    Iterates through the list of students and prints out their recommendations.
+
+    Now to a particular file!
+    """
+    output = open(r"C:\Users\under\OneDrive\Documents\GitHub\Python310\310\w2\P0000\output.txt", "w")
+
+    for s in students:
+        output.write(str(s))
+
+    output.close()
 
 def main():
     """Driver function that runs the script to access the data and objects"""
@@ -209,5 +226,7 @@ def main():
     # Ok. All of the songs and students have been loaded.
     # Now, we need to get the recommendations.
     set_recommendations(students, songs)
+
+    print_recommendations(students)
 
 main()

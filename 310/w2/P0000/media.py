@@ -18,7 +18,7 @@ class Media:
         and the artist."""
         self._title = title
         self._release_year = release_year
-        self._artist=artist
+        self._artist = artist
 
     def __str__(self) -> str:
         return f"{self._title} was released in {self._release_year} by {self._artist}."

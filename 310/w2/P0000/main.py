@@ -3,26 +3,24 @@ Driver class for P000
 
 1: Reads and stores the information in the spotify.csv
 2: Reads and stores the information in interests.csv
-3: I don't know right now but I'll figure it out later go go go
+3: Determines two song recommendations for each student
+4: Writes those recommendations to a file
 
 @author jdeanes0
-@version 9/28/23
+@version 9/29/23
 """
 
-import media
 import music
 import random as r
-
 from student import Student310 as st
+import os
 
-john_lennon_fortnite = media.Media("Fortnite", 2017, "John Lennon")
+absolute_path = os.path.dirname(__file__)
+relative_path = r"output.txt"
+output_path = os.path.join(absolute_path, relative_path)
 
-print(john_lennon_fortnite)
-
-free_bird = music.Rock("Lynyrd Skynrd", 1973, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1)
-
-print(free_bird.play())
-print(free_bird.get_valence())
+print("absolute path is: ", absolute_path)
+print("output path is: ", output_path)
 
 def determine_genre(specific_genre: str):
     """
@@ -37,7 +35,7 @@ def determine_genre(specific_genre: str):
 
     for g in genres:            ###        ###                             ###
         if g in specific_genre: ### STEVE! ### THIS IS WHY PYTHON IS GOOD! ###
-            print(g)
+            # print(g)
             return g            ###        ###                             ###
         
     return "generic" # If a genre can't be matched, return that it's generic.
@@ -139,6 +137,7 @@ def load_songs() -> list[music.Music]:
 
     length_reader.close()
     songs_file.close()
+    print("Songs acquired from Spotify-2000.csv")
     return songs # There will be a lot above here to work out.
 
 def get_student_song_array(songs, genre, poss_student_songs):
@@ -182,7 +181,6 @@ def set_recommendations(students: list[st], songs):
         # With the list of possible songs, we now need to randomly set two for each student.
         # Still iterating through the students, choose two random indicies between 0 and len(poss_student_songs)
         max_index = len(poss_student_songs) - 1
-        print(max_index)
         i1 = r.randint(0, max_index)
         i2 = r.randint(0, max_index)
 
@@ -196,10 +194,11 @@ def set_recommendations(students: list[st], songs):
         song1 = poss_student_songs[i1]
         song2 = poss_student_songs[i2]
 
-        print(song1.play())
-        print(song2.play())
+        # print(song1.play())
+        # print(song2.play())
 
         s.set_recommendations(song1, song2) # Sets the two recommendations!
+        print(f"Recommendations have been made for {s.get_name()}.")
 
         
 def print_recommendations(students):
@@ -208,11 +207,12 @@ def print_recommendations(students):
 
     Now to a particular file!
     """
-    output = open(r"C:\Users\under\OneDrive\Documents\GitHub\Python310\310\w2\P0000\output.txt", "w")
+    output = open(output_path, "w", encoding="UTF8")
 
     for s in students:
         output.write(str(s))
 
+    print("Results written to output.txt")
     output.close()
 
 def main():

@@ -17,7 +17,11 @@ import os
 
 absolute_path = os.path.dirname(__file__)
 relative_path = r"output.txt"
+relative_input_path = r"Spotify-2000.csv"
+students_input_path = r"interests.csv"
 output_path = os.path.join(absolute_path, relative_path)
+input_path = os.path.join(absolute_path, relative_input_path)
+students_path = os.path.join(absolute_path, students_input_path)
 
 print("absolute path is: ", absolute_path)
 print("output path is: ", output_path)
@@ -46,10 +50,10 @@ def load_students():
     Not too bad yet!
     """
 
-    length_reader = open("310/w2/P0000/interests.csv", "r", encoding="utf8")
+    length_reader = open(students_path, "r", encoding="utf8")
     interests_len = len(length_reader.readlines()) - 1 # This gets the total length of the file
 
-    interests = open("310/w2/P0000/interests.csv", "r", encoding="utf8")
+    interests = open(students_path, "r", encoding="utf8")
     interests.readline() # Skip the first line of the file with the headers
 
     students = [st(None, None, None, None)]*25 # List of 25 empty student310 objects to be overwritten
@@ -72,10 +76,10 @@ def load_songs() -> list[music.Music]:
     Function that opens Spotify-2000.csv and assigns each song a class to be put in a giant list.
     This will be expensive.
     """
-    length_reader = open("310/w2/P0000/Spotify-2000.csv", "r", encoding="utf8")
+    length_reader = open(input_path, "r", encoding="utf8")
     songs_len = len(length_reader.readlines()) - 1 # This gets the total length of the file
 
-    songs_file = open("310/w2/P0000/Spotify-2000.csv", "r", encoding="utf8")
+    songs_file = open(input_path, "r", encoding="utf8")
     songs_file.readline() # Skip the header line
 
     # Acquire space in memory for 1,994 references

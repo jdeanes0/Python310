@@ -49,7 +49,7 @@ class Tree:
             self._insert(self.root, value) # here's the call to a "private" function to which we are passing nodes down, starting from root
 
     def _insert(self, node, value):
-        print(value)
+        # print(value) # Debug statement, leave here just in case tbh
         if value < node.value:  # we know that `node` cannot be None - so it's safe to check its value! 
             if node.left:
                 self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
@@ -60,3 +60,36 @@ class Tree:
                 self._insert(node.right, value)
             else:
                 node.right = self.make_node(value)
+
+    def __preorder(self, root, nodestring):
+        """Performs a preorder traversal on the tree for the purpose of debugging"""
+        if root == None:
+            return ""
+        
+        return str(root.value) + " " + self.__preorder(root.left, nodestring) + self.__preorder(root.right, nodestring)
+    
+    def preorder(self):
+        """Returns the preorder traversal of the tree"""
+        return self.__preorder(self.root, "")
+    
+    def __inorder(self, root, nodestring):
+        """Performs an inorder traversal on the tree for the purpose of debugging"""
+        if root == None:
+            return ""
+        
+        return self.__inorder(root.left, nodestring) + str(root.value) + " " + self.__inorder(root.right, nodestring)
+        
+    def inorder(self):
+        """Returns the inorder traversal of the tree"""
+        return self.__inorder(self.root, "")
+    
+    def __postorder(self, root, nodestring):
+        """Performs a postorder traversal of the tree for the purpose of debugging"""
+        if root == None:
+            return ""
+        
+        return self.__postorder(root.left, nodestring) + self.__postorder(root.right, nodestring) + str(root.value) + " "
+    
+    def postorder(self):
+        """Returns the postorder traversal of the tree"""
+        return self.__postorder(self.root, "")

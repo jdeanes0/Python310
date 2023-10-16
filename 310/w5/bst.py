@@ -17,7 +17,7 @@ When moving about a tree, each node, not the data for the node, is put into a da
 That way, the objects themselves can be accessed easily
 
 @author jdeanes0
-@version 9/25/23
+@version 10/15/23
 """
 
 class Node:

@@ -22,7 +22,7 @@ That way, the objects themselves can be accessed easily
 
 class Node:
     """Object that holds the node data"""
-    value = None
+    value = 0
     left = None
     right = None
 
@@ -72,24 +72,54 @@ class Tree:
         """Returns the preorder traversal of the tree"""
         return self.__preorder(self.root)
     
-    def __inorder(self, root, nodestring):
+    def __inorder(self, root):
         """Performs an inorder traversal on the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__inorder(root.left, nodestring) + str(root.value) + " " + self.__inorder(root.right, nodestring)
+        return self.__inorder(root.left) + str(root.value) + " " + self.__inorder(root.right)
         
     def inorder(self):
         """Returns the inorder traversal of the tree"""
-        return self.__inorder(self.root, "")
+        return self.__inorder(self.root)
     
-    def __postorder(self, root, nodestring):
+    def __postorder(self, root):
         """Performs a postorder traversal of the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__postorder(root.left, nodestring) + self.__postorder(root.right, nodestring) + str(root.value) + " "
+        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value) + " "
     
     def postorder(self):
         """Returns the postorder traversal of the tree"""
-        return self.__postorder(self.root, "")
+        return self.__postorder(self.root)
+    
+    def getCount(self):
+        """Returns the count of the tree's nodes"""
+        return self.count
+    
+    def find(self, e) -> int:
+        """Find a key in a tree, return its value."""
+        nodeval = self.__find(e, self.root).value
+        if nodeval is None:
+            raise Exception("ValueNotFound") # Don't return null. That's dumb.
+        else:
+            return nodeval
+    
+    def __find(self, e, root) -> Node:
+        """Recursively find the specified element
+        Listen. This is a dumb method.
+        However, it will be very useful when we need to 
+        """
+        the_node = Node(None)
+        if root is None:
+            return the_node # Return a null node if the root is empty
+                              # Definitely hazardous, but this is what Steve did sooo
+        elif root.value is e:
+            the_node = root
+        elif e > root.value:
+            the_node = self.__find(e, root.right)
+        elif e < root.value:
+            the_node = self.__find(e, root.left)
+        
+        return the_node

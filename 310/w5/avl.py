@@ -68,7 +68,7 @@ class AVLTree(bst.Tree):
         balance_amt = self.determine_balance(node)
         if balance_amt > 1:
             if value < node.left.value:
-                node = self.rightRotate(node)
+                node = self.right_rotate(node)
             else:
                 node.left = self.left_rotate(node.left)
                 node = self.right_rotate(node)

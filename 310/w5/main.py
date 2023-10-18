@@ -33,4 +33,5 @@ test_avl_tree.insert(544)
 print("count:", test_avl_tree.count)
 
 print("preorder:", test_avl_tree.preorder())
-print(test_avl_tree.root.height) # These need to be from the Tree class.
+print("inorder:", test_avl_tree.inorder())
+print("height:", test_avl_tree.root.height) # These need to be from the Tree class.

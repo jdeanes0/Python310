@@ -61,20 +61,20 @@ class Tree:
             else:
                 node.right = self.make_node(value)
 
-    def __preorder(self, root, nodestring):
+    def __preorder(self, root):
         """Performs a preorder traversal on the tree for the purpose of debugging"""
-        if root == None:
+        if root is None:
             return ""
         
-        return str(root.value) + " " + self.__preorder(root.left, nodestring) + self.__preorder(root.right, nodestring)
+        return str(root.value) + " " + self.__preorder(root.left) + self.__preorder(root.right)
     
     def preorder(self):
         """Returns the preorder traversal of the tree"""
-        return self.__preorder(self.root, "")
+        return self.__preorder(self.root)
     
     def __inorder(self, root, nodestring):
         """Performs an inorder traversal on the tree for the purpose of debugging"""
-        if root == None:
+        if root is None:
             return ""
         
         return self.__inorder(root.left, nodestring) + str(root.value) + " " + self.__inorder(root.right, nodestring)
@@ -85,7 +85,7 @@ class Tree:
     
     def __postorder(self, root, nodestring):
         """Performs a postorder traversal of the tree for the purpose of debugging"""
-        if root == None:
+        if root is None:
             return ""
         
         return self.__postorder(root.left, nodestring) + self.__postorder(root.right, nodestring) + str(root.value) + " "

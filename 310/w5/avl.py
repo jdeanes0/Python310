@@ -39,24 +39,26 @@ class AVLTree(bst.Tree):
     
     def insert(self, value):  # this is the function that gets called, pay attention that we're not sending `root`
         """Attempt to insert a value into the tree"""
+        print("Adding " + str(value))
         if self.root is None:
             self.root = AVLNode(value)
             self.count = 1
             # if there is no root, there is no need to update the heights
         else:
             self.root = self._insert(self.root, value) # here's the call to a "private" function to which we are passing nodes down, starting from root
+            # self._insert(self.root, value)
 
     def _insert(self, node, value):
         """Find where the newly created node will go in the tree"""
         # print(value) # Debug statement, leave here just in case tbh
         if value < node.value:  # we know that `node` cannot be None - so it's safe to check its value! 
             if node.left:
-                self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
+                node.left = self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
             else:
                 node.left = self.make_node(value)
         else:
-            if node.right:
-                self._insert(node.right, value)
+            if node.right: # if it exists
+                node.right = self._insert(node.right, value)
             else:
                 node.right = self.make_node(value)
 
@@ -78,7 +80,7 @@ class AVLTree(bst.Tree):
             if value > node.right.value:
                 node = self.left_rotate(node)
             else:
-                node.right = self.right_rotate(node)
+                node.right = self.right_rotate(node.right)
                 node = self.left_rotate(node)
 
         return node
@@ -92,14 +94,14 @@ class AVLTree(bst.Tree):
     def left_rotate(self, root):
         """Performs a left rotation"""
         
-        print("left rotate has occurred")
+        print("left rotate has occurred on root node " + str(root.value))
         
         # reference switch
         y = root.right
         tmp = y.left # root.right.left
         y.left = root
         root.right = tmp
-        print(self.preorder())
+        # print(self.preorder())
 
         root.height = 1 + max(self.get_height(root.left), self.get_height(root.right))
 
@@ -110,14 +112,14 @@ class AVLTree(bst.Tree):
     def right_rotate(self, root):
         """Performs a right rotation"""
         
-        print("right rotate has occurred")
+        print("right rotate has occurred on root node " + str(root.value))
 
         # reference switch
-        print("root's type is:", type(root))
+        # print("root's type is:", type(root))
 
         y = root.left
 
-        print("y's type is:", type(y)) # Why are nodes being lost?
+        # print("y's type is:", type(y)) # Why are nodes being lost?
         tmp = y.right
         y.right = root
         root.left = tmp
@@ -127,3 +129,16 @@ class AVLTree(bst.Tree):
         y.height = 1 + max(self.get_height(y.left), self.get_height(y.right))
 
         return y
+    
+    def __print_inorder_with_heights(self, root):
+        """Interior function, should not be seen by the user"""
+        if root is None:
+            return
+        
+        self.__print_inorder_with_heights(root.left)        
+        print(str(root.value)+"_h"+str(root.height)+" ")
+        self.__print_inorder_with_heights(root.right)
+    
+    def print_inorder_with_heights(self):
+        """Debugging levels that shouldn't even be possible"""
+        self.__print_inorder_with_heights(self.root)

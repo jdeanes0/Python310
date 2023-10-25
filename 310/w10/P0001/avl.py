@@ -6,6 +6,8 @@ Uh oh. We're doing something complicated.
 """
 
 import bst
+import kvpair
+import music
 
 class AVLNode(bst.Node):
     """
@@ -14,7 +16,7 @@ class AVLNode(bst.Node):
     """
     height = 0 # starts at 1 because if it exists, then it must be 1. Actually, I have no clue.
 
-    def __init__(self, value, left=None, right=None):
+    def __init__(self, value:music.Music, left=None, right=None):
         """Constructor function, can be called with detailed children or without detailed children"""
         super().__init__(value, left, right)
         self.height = 1 # Yeah this isn't fully working yet. I'm just surprised at how there aren't any errors.
@@ -48,10 +50,10 @@ class AVLTree(bst.Tree):
             self.root = self._insert(self.root, value) # here's the call to a "private" function to which we are passing nodes down, starting from root
             # self._insert(self.root, value)
 
-    def _insert(self, node, value):
+    def _insert(self, node:AVLNode, value:kvpair.KVPair):
         """Find where the newly created node will go in the tree"""
         # print(value) # Debug statement, leave here just in case tbh
-        if value < node.value:  # we know that `node` cannot be None - so it's safe to check its value! 
+        if value.get_key() < node.value.get_key():  # we know that `node` cannot be None - so it's safe to check its value! 
             if node.left:
                 node.left = self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
             else:
@@ -69,7 +71,7 @@ class AVLTree(bst.Tree):
         # Set up potential right rotations
         balance_amt = self.determine_balance(node)
         if balance_amt > 1:
-            if value < node.left.value:
+            if value.get_key() < node.left.value.get_key():
                 node = self.right_rotate(node)
             else:
                 node.left = self.left_rotate(node.left)
@@ -77,7 +79,7 @@ class AVLTree(bst.Tree):
             
         # Set up potential left rotations
         if balance_amt < -1:
-            if value > node.right.value:
+            if value.get_key() > node.right.value.get_key():
                 node = self.left_rotate(node)
             else:
                 node.right = self.right_rotate(node.right)
@@ -94,7 +96,7 @@ class AVLTree(bst.Tree):
     def left_rotate(self, root):
         """Performs a left rotation"""
         
-        print("left rotate has occurred on root node " + str(root.value))
+        print("left rotate has occurred on root node " + str(root.value.get_key()))
         
         # reference switch
         y = root.right
@@ -112,7 +114,7 @@ class AVLTree(bst.Tree):
     def right_rotate(self, root):
         """Performs a right rotation"""
         
-        print("right rotate has occurred on root node " + str(root.value))
+        print("right rotate has occurred on root node " + str(root.value.get_key()))
 
         # reference switch
         # print("root's type is:", type(root))
@@ -136,7 +138,7 @@ class AVLTree(bst.Tree):
             return
         
         self.__print_inorder_with_heights(root.left)        
-        print(str(root.value)+"_h"+str(root.height)+" ")
+        print(str(root.value.get_key())+"_h"+str(root.height)+" ")
         self.__print_inorder_with_heights(root.right)
     
     def print_inorder_with_heights(self):

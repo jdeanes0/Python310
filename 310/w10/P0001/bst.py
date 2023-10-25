@@ -20,15 +20,18 @@ That way, the objects themselves can be accessed easily
 @version 10/15/23
 """
 
+import kvpair
+import music
+
 class Node:
     """Object that holds the node data"""
-    value = 0
+    value:kvpair.KVPair = 0
     left = None
     right = None
 
-    def __init__(self, value, left=None, right=None):
+    def __init__(self, value:music.Music, left=None, right=None):
         """Constructor function, can be called with detailed children or without detailed children"""
-        self.value = value
+        self.value = kvpair.KVPair(value)
         self.left = left
         self.right = right
 
@@ -48,9 +51,9 @@ class Tree:
         else:
             self._insert(self.root, value) # here's the call to a "private" function to which we are passing nodes down, starting from root
 
-    def _insert(self, node, value):
+    def _insert(self, node, value:kvpair.KVPair):
         # print(value) # Debug statement, leave here just in case tbh
-        if value < node.value:  # we know that `node` cannot be None - so it's safe to check its value! 
+        if value.get_key() < node.value.get_key():  # we know that `node` cannot be None - so it's safe to check its value! 
             if node.left:
                 self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
             else:
@@ -61,34 +64,34 @@ class Tree:
             else:
                 node.right = self.make_node(value)
 
-    def __preorder(self, root):
+    def __preorder(self, root:Node):
         """Performs a preorder traversal on the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return str(root.value) + " " + self.__preorder(root.left) + self.__preorder(root.right)
+        return str(root.value.get_key()) + " " + self.__preorder(root.left) + self.__preorder(root.right)
     
     def preorder(self):
         """Returns the preorder traversal of the tree"""
         return self.__preorder(self.root)
     
-    def __inorder(self, root):
+    def __inorder(self, root:Node):
         """Performs an inorder traversal on the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__inorder(root.left) + str(root.value) + " " + self.__inorder(root.right)
+        return self.__inorder(root.left) + str(root.value.get_key()) + " " + self.__inorder(root.right)
         
     def inorder(self):
         """Returns the inorder traversal of the tree"""
         return self.__inorder(self.root)
     
-    def __postorder(self, root):
+    def __postorder(self, root:Node):
         """Performs a postorder traversal of the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value) + " "
+        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value.get_key()) + " "
     
     def postorder(self):
         """Returns the postorder traversal of the tree"""
@@ -104,9 +107,9 @@ class Tree:
         if nodeval is None:
             raise Exception("ValueNotFound") # Don't return null. That's dumb.
         else:
-            return nodeval
+            return nodeval.get_key()
     
-    def __find(self, e, root) -> Node:
+    def __find(self, e, root:Node) -> Node:
         """Recursively find the specified element
         Listen. This is a dumb method.
         However, it will be very useful when we need to 
@@ -115,11 +118,11 @@ class Tree:
         if root is None:
             return the_node # Return a null node if the root is empty
                               # Definitely hazardous, but this is what Steve did sooo
-        elif root.value is e:
+        elif root.value.get_key() is e:
             the_node = root
-        elif e > root.value:
+        elif e > root.value.get_key():
             the_node = self.__find(e, root.right)
-        elif e < root.value:
+        elif e < root.value.get_key():
             the_node = self.__find(e, root.left)
         
         return the_node

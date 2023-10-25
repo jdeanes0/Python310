@@ -101,24 +101,24 @@ class Tree:
         """Returns the count of the tree's nodes"""
         return self.count
     
-    def find(self, e) -> int:
+    def find(self, e) -> music.Music:
         """Find a key in a tree, return its value."""
-        nodeval = self.__find(e, self.root).value
+        nodeval = self.__find(e, self.root).value # ...why is this none?
         if nodeval is None:
             raise Exception("ValueNotFound") # Don't return null. That's dumb.
         else:
-            return nodeval.get_key()
+            return nodeval.get_value()
     
     def __find(self, e, root:Node) -> Node:
         """Recursively find the specified element
         Listen. This is a dumb method.
-        However, it will be very useful when we need to 
+        However, it will be very useful when we need to use key-value pairs
         """
-        the_node = Node(None)
+        the_node = None
         if root is None:
             return the_node # Return a null node if the root is empty
                               # Definitely hazardous, but this is what Steve did sooo
-        elif root.value.get_key() is e:
+        elif root.value.get_key() == e:
             the_node = root
         elif e > root.value.get_key():
             the_node = self.__find(e, root.right)

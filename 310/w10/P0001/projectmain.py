@@ -22,7 +22,7 @@ def test():
 
 def search(param, tree:AVLTree):
     try:
-        tree.find(param)
+        print(tree.find(param))
     except:
         print("The program couldn't find a song. Please try again with another song title.")
 
@@ -34,11 +34,11 @@ def traverse(flag, tree:AVLTree):
     """Calls a function to do a traversal of the tree."""
     match flag:
         case 0:
-            tree.inorder()
+            print(tree.inorder())
         case 1:
-            tree.preorder()
+            print(tree.preorder())
         case 2:
-            tree.postorder()
+            print(tree.postorder())
 
 def info():
     print("--")
@@ -106,13 +106,19 @@ def loop(tree:AVLTree): # Type safety! No? Kinda!
 def load_data() -> AVLTree:
     """Grab the data from the .csv file and place it in the tree."""
     tree = AVLTree()
-    file = open(r"Spotify-2000_b-1.csv", "r", encoding="UTF8")
+    file = open(r"310\w10\P0001\Spotify-2000_b-1.csv", "r", encoding="UTF8")
 
+    file.readline() # skip header line of the .csv
     contents = file.readlines() # Read the entire file
 
+    count = 0
     for line in contents: # For every line in the file, make an object and add it to the tree
-        temp = Music(line[1], line[4], line[2], line[3])
-        tree.insert(temp) # Insert the 
+        linearr = line.split(",")
+        temp = Music(linearr[1], linearr[4], linearr[2], linearr[3])
+        tree.insert(temp) # Insert the object into the tree
+        if count == 501:
+            tree.insert(temp)
+        count += 1
 
     return tree
 
@@ -122,7 +128,8 @@ def main():
     Because we have been asked to create "commands," it seems fitting to give each command its own function. 
     Also, there will be a loop function just to keep it out of main.
     """
-    loop(AVLTree())
+    tree = load_data()
+    loop(tree)
 
 if __name__ == "__main__":
     test()

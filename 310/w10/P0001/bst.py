@@ -25,7 +25,7 @@ import music
 
 class Node:
     """Object that holds the node data"""
-    value:kvpair.KVPair = 0
+    value:kvpair.KVPair = kvpair.KVPair(music.Music(None, None, None, None))
     left = None
     right = None
 
@@ -73,6 +73,9 @@ class Tree:
     
     def preorder(self):
         """Returns the preorder traversal of the tree"""
+        if self.root is None:
+            return ""
+
         return self.__preorder(self.root)
     
     def __inorder(self, root:Node):
@@ -84,6 +87,9 @@ class Tree:
         
     def inorder(self):
         """Returns the inorder traversal of the tree"""
+        if self.root is None:
+            return ""
+
         return self.__inorder(self.root)
     
     def __postorder(self, root:Node):
@@ -95,19 +101,22 @@ class Tree:
     
     def postorder(self):
         """Returns the postorder traversal of the tree"""
+        if self.root is None:
+            return ""
+
         return self.__postorder(self.root)
     
     def getCount(self):
         """Returns the count of the tree's nodes"""
         return self.count
     
-    def find(self, e) -> music.Music:
+    def find(self, e) -> kvpair.KVPair:
         """Find a key in a tree, return its value."""
         nodeval = self.__find(e, self.root).value # ...why is this none?
         if nodeval is None:
             raise Exception("ValueNotFound") # Don't return null. That's dumb.
         else:
-            return nodeval.get_value()
+            return nodeval
     
     def __find(self, e, root:Node) -> Node:
         """Recursively find the specified element

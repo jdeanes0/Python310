@@ -18,7 +18,7 @@ class Music(media.Media):
         self._genre = genre
 
     # below this point, we have getters but not setters, we will not need to mutate any data from the .csv
-    def get_title(self):
+    def get_title(self) -> str:
         return self._title
 
     def get_release_year(self):

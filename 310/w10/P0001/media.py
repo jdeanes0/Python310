@@ -9,9 +9,9 @@ class Media:
     """Abstract class for P0000"""
 
     #protected variables
-    _title = None
-    _release_year = None
-    _artist = None
+    _title:str = ""
+    _release_year:str = ""
+    _artist:str = ""
 
     def __init__(self, title, release_year, artist):
         """Creates a piece of media with information about the title, year of release,

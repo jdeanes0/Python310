@@ -2,27 +2,19 @@
 Driver class for the P0001 project. Cool and Good.
 
 @author jdeanes0
-@version 10/24/23
+@version 10/25/23
 """
 
-import kvpair
 from avl import AVLTree
 from music import Music
 
 def test():
-    """Testing function, TODO: Delete later."""
-    asong = Music("Hey, Soul Sister", 2010, "Train", "neo mellow")
-    sample = kvpair.KVPair(asong)
-    print(sample)
-
-    if "a" < "b": print("yes1")
-    # from this statement we can gather that values at the front end of the alphabet are in fact lesser than those at the end
-    if "aaaaaaaaaaab" < "aaaaaaaaaaac": print("does it go that far in?")
-    # from this statement we can gather that < & > can be used to sort entire words. That's a good sign.
+    """Function to test out particular bugs and stuffs."""
+    pass
 
 def search(param, tree:AVLTree):
     try:
-        print(tree.find(param))
+        print(f"{tree.find(param)}")
     except:
         print("The program couldn't find a song. Please try again with another song title.")
 

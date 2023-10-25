@@ -98,7 +98,7 @@ class Tree:
         """Returns the count of the tree's nodes"""
         return self.count
     
-    def find(self, e) -> int:
+    def find(self, e) -> kvpair.KVPair:
         """Find a key in a tree, return its value."""
         nodeval = self.__find(e, self.root).value
         if nodeval is None:

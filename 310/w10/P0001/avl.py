@@ -16,7 +16,7 @@ class AVLNode(bst.Node):
     """
     height = 0 # starts at 1 because if it exists, then it must be 1. Actually, I have no clue.
 
-    def __init__(self, value:kvpair.KVPair, left=None, right=None):
+    def __init__(self, value:music.Music, left=None, right=None):
         """Constructor function, can be called with detailed children or without detailed children"""
         super().__init__(value, left, right)
         self.height = 1 # Yeah this isn't fully working yet. I'm just surprised at how there aren't any errors.

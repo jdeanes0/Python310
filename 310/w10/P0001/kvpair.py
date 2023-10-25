@@ -14,8 +14,8 @@ from music import Music
 class KVPair:
     """Class of data nodes in P0001's AVL project."""
 
-    __key = None
-    __value = None
+    __key:str = ""
+    __value:Music = Music(None, None, None, None)
 
     def __init__(self, song:Music):
         """Constructor object, takes a song as input to construct an appropriate key-value pairing."""

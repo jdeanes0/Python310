@@ -19,8 +19,18 @@ def search(param, tree:AVLTree):
         print("The program couldn't find a song. Please try again with another song title.")
 
 def add(param, tree:AVLTree):
-    # TODO: Create a music object here.
-    tree.insert(param)
+    """
+    Get further input about song details from the user.
+    Then, create a music object and insert it into the AVL Tree.
+    """
+    ryear = input("Release Year> ")
+    artist = input("Artist> ")
+    genre = input("Genre> ")
+
+    song = Music(param, ryear, artist, genre)
+
+    tree.insert(song)
+    return tree # The tree has been updated so send it back.
 
 def traverse(flag, tree:AVLTree):
     """Calls a function to do a traversal of the tree."""
@@ -54,19 +64,27 @@ def info():
 def loop(tree:AVLTree): # Type safety! No? Kinda!
     """
     Runs the program's while loop for continuous operation.
-    Takes an AVL tree as a parameter.
+    Takes an AVL tree as a parameter to be updated by the add command.
     """
     info() # Print all information once before starting the program
 
     while True:
-        line = input("aReallyCoolGuy@aReallyCoolPlace ~$ ")
-        tmp = line.split(" ") # split input tokens on the command line
+        line = input("aReallyCoolGuy@aReallyCoolPlace ~$ ").split(" ") # Split input on the command line
 
-        command = tmp[0]
-        try:
-            param = tmp[1] # Python loves its index out of range errors. I know its out of range! I only need this sometimes!
-        except IndexError:
-            param = None
+        command = ""
+        param = ""
+
+        # Interpret the input to the command line so that there is a single parameter that stays together.
+        tokenc = 0
+        for token in line:
+            if tokenc == 0:
+                command += token
+            else:
+                param += token + " "
+            tokenc += 1
+
+        param = param.strip() # Remove the trailing whitespace from the parameter.
+        print("line:", line, "[command:", command, "] [param:", param + "]") # TODO: Remove this debug statement.
 
         match command:
             case "search":
@@ -80,7 +98,7 @@ def loop(tree:AVLTree): # Type safety! No? Kinda!
                     print("You didn't give input, try again with syntax \"add <name>\"")
                 else:
                     print("Attempting to add", param)
-                    add(param, tree)
+                    tree = add(param, tree)
             case "inorder":
                 traverse(0, tree)
             case "preorder":

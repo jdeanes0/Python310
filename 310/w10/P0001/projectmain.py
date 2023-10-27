@@ -84,7 +84,6 @@ def loop(tree:AVLTree): # Type safety! No? Kinda!
             tokenc += 1
 
         param = param.strip() # Remove the trailing whitespace from the parameter.
-        print("line:", line, "[command:", command, "] [param:", param + "]") # TODO: Remove this debug statement.
 
         match command:
             case "search":

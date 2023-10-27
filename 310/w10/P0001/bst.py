@@ -127,11 +127,11 @@ class Tree:
         if root is None:
             return the_node # Return a null node if the root is empty
                               # Definitely hazardous, but this is what Steve did sooo
-        elif root.value.get_key() == e:
+        elif e.lower() in root.value.get_key().lower():
             the_node = root
-        elif e > root.value.get_key():
+        elif e.lower() > root.value.get_key().lower():
             the_node = self.__find(e, root.right)
-        elif e < root.value.get_key():
+        elif e.lower() < root.value.get_key().lower():
             the_node = self.__find(e, root.left)
         
         return the_node

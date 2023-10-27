@@ -69,7 +69,7 @@ class Tree:
         if root is None:
             return ""
         
-        return str(root.value.get_key()) + " " + self.__preorder(root.left) + self.__preorder(root.right)
+        return str(root.value.get_key()) + " | " + self.__preorder(root.left) + self.__preorder(root.right)
     
     def preorder(self):
         """Returns the preorder traversal of the tree"""
@@ -83,7 +83,7 @@ class Tree:
         if root is None:
             return ""
         
-        return self.__inorder(root.left) + str(root.value.get_key()) + " " + self.__inorder(root.right)
+        return "-" + self.__inorder(root.left) + "-" + str(root.value.get_key()) + "\n" + self.__inorder(root.right) + "-"
         
     def inorder(self):
         """Returns the inorder traversal of the tree"""
@@ -97,7 +97,7 @@ class Tree:
         if root is None:
             return ""
         
-        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value.get_key()) + " "
+        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value.get_key()) + " | "
     
     def postorder(self):
         """Returns the postorder traversal of the tree"""
@@ -105,6 +105,15 @@ class Tree:
             return ""
 
         return self.__postorder(self.root)
+    
+    def printTree(self):
+        self.__printTree(self.root)
+    
+    def __printTree(self, node, level=0):
+        if node != None:
+            self.__printTree(node.left, level + 1)
+            print(' ' * 4 * level + str(level) + '-> ' + str(node.value.get_key()))
+            self.__printTree(node.right, level + 1)
     
     def getCount(self):
         """Returns the count of the tree's nodes"""

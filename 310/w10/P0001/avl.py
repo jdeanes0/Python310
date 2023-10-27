@@ -55,7 +55,7 @@ class AVLTree(bst.Tree):
     def _insert(self, node:AVLNode, value:music.Music):
         """Find where the newly created node will go in the tree"""
         # print(value) # Debug statement, leave here just in case tbh
-        if value.get_title() < node.value.get_key():  # we know that `node` cannot be None - so it's safe to check its value! 
+        if value.get_title().lower() < node.value.get_key().lower():  # we know that `node` cannot be None - so it's safe to check its value! 
             if node.left:
                 node.left = self._insert(node.left, value) # the recursive call is done only when `node.left` is not None
             else:
@@ -73,7 +73,7 @@ class AVLTree(bst.Tree):
         # Set up potential right rotations
         balance_amt = self.determine_balance(node)
         if balance_amt > 1:
-            if value.get_title() < node.left.value.get_key():
+            if value.get_title().lower() < node.left.value.get_key().lower():
                 node = self.right_rotate(node)
             else:
                 node.left = self.left_rotate(node.left)
@@ -81,7 +81,7 @@ class AVLTree(bst.Tree):
             
         # Set up potential left rotations
         if balance_amt < -1:
-            if value.get_title() >= node.right.value.get_key():
+            if value.get_title().lower() >= node.right.value.get_key().lower():
                 node = self.left_rotate(node)
             else:
                 node.right = self.right_rotate(node.right)

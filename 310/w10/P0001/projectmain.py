@@ -99,7 +99,8 @@ def loop(tree:AVLTree): # Type safety! No? Kinda!
                     print("Attempting to add", param)
                     tree = add(param, tree)
             case "inorder":
-                traverse(0, tree)
+                # traverse(0, tree)
+                tree.printTree()
             case "preorder":
                 traverse(1, tree)
             case "postorder":

@@ -83,7 +83,7 @@ def bubble_sort(lis):
     # TODO: make this function deep sort the strings, recursive?
     for i in range(len(lis) - 1):
         for j in range(len(lis) - i - 1):
-            if lis[j][0] > lis[j+1][0]:
+            if lis[j] > lis[j+1]:
                 temp = lis[j]
                 lis[j] = lis[j+1]
                 lis[j + 1] = temp

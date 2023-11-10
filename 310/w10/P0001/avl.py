@@ -6,7 +6,6 @@ Uh oh. We're doing something complicated.
 """
 
 import bst
-import kvpair
 import music
 
 class AVLNode(bst.Node):
@@ -95,7 +94,7 @@ class AVLTree(bst.Tree):
             return 0
         return self.get_height(root.left) - self.get_height(root.right)
     
-    def left_rotate(self, root):
+    def left_rotate(self, root) -> AVLNode:
         """Performs a left rotation"""
         
         print("left rotate has occurred on root node " + str(root.value.get_key()))
@@ -113,7 +112,7 @@ class AVLTree(bst.Tree):
 
         return y
 
-    def right_rotate(self, root):
+    def right_rotate(self, root) -> AVLNode:
         """Performs a right rotation"""
         
         print("right rotate has occurred on root node " + str(root.value.get_key()))

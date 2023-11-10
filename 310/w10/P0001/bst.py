@@ -64,12 +64,12 @@ class Tree:
             else:
                 node.right = self.make_node(value)
 
-    def __preorder(self, root:Node):
+    def __preorder(self, root:Node|None) -> str:
         """Performs a preorder traversal on the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return str(root.value.get_key()) + " " + self.__preorder(root.left) + self.__preorder(root.right)
+        return str(root.value.get_key()) + "\n" + self.__preorder(root.left) + self.__preorder(root.right)
     
     def preorder(self):
         """Returns the preorder traversal of the tree"""
@@ -78,12 +78,12 @@ class Tree:
 
         return self.__preorder(self.root)
     
-    def __inorder(self, root:Node):
+    def __inorder(self, root:Node|None) -> str:
         """Performs an inorder traversal on the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__inorder(root.left) + str(root.value.get_key()) + " " + self.__inorder(root.right)
+        return self.__inorder(root.left) + str(root.value.get_key()) + "\n" + self.__inorder(root.right)
         
     def inorder(self):
         """Returns the inorder traversal of the tree"""
@@ -92,12 +92,12 @@ class Tree:
 
         return self.__inorder(self.root)
     
-    def __postorder(self, root:Node):
+    def __postorder(self, root:Node|None) -> str:
         """Performs a postorder traversal of the tree for the purpose of debugging"""
         if root is None:
             return ""
         
-        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value.get_key()) + " "
+        return self.__postorder(root.left) + self.__postorder(root.right) + str(root.value.get_key()) + "\n"
     
     def postorder(self):
         """Returns the postorder traversal of the tree"""
@@ -118,7 +118,7 @@ class Tree:
         else:
             return nodeval
     
-    def __find(self, e, root:Node) -> Node:
+    def __find(self, e, root:Node|None) -> Node|None:
         """Recursively find the specified element
         Listen. This is a dumb method.
         However, it will be very useful when we need to use key-value pairs

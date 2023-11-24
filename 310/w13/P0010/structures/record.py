@@ -45,3 +45,4 @@ class Record:
     def __str__(self) -> str:
         """Provide a nice string to be printed out about the movie."""
         return f"{self.__quote} is from the {self.__type_of_media} {self.__movie}, which was released in {self.__year}."
+    

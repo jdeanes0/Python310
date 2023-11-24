@@ -63,6 +63,7 @@ def drive_it():
     # easy to hard code, difficult to make bendable
     # going to hard code for now
     # TODO: make recursive function to do what has been done below
+    # Wait. This is literally a fucking merge sort at this point.
     collated = collate(collate(r_of_rs[0], r_of_rs[1]), collate(r_of_rs[2], r_of_rs[3]))
 
     delta_time = time.time() - start

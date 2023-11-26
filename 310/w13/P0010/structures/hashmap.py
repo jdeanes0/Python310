@@ -32,7 +32,7 @@ class HashMap:
         s = self.table[self.__hash(title)]
 
         if s.head is not None:
-            print(s)
+            s.find(title)
         else:
             print("Could not find requested movie.")
 
@@ -50,6 +50,18 @@ class HashMap:
 
         self.count += 1
         # Increment count for later
+
+    def delete(self, quote: str) -> bool:
+        """Go through all non-empty buckets in the hashtable and try to delete the requested quote."""
+        isdeleted = False
+        for bucket in self.table:
+            if bucket.head is not None:
+                isdeleted = bucket.delete(quote)
+
+                if isdeleted == True:
+                    return True
+
+        return False
 
     def __get_first_words(self, title:str) -> str:
         """

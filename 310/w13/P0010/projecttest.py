@@ -9,6 +9,55 @@ My first time doing this, so you better be happy, Steve.
 
 from structures import linkedlist
 from structures import record
+from structures import hashmap
+
+def run_hashmap_test():
+    hm = hashmap.HashMap()
+
+    hm.add(record.Record("Do or do not, there is no try.","SW 5","movie", 1971))
+    hm.add(record.Record("Do or do not, there is no tru.","SW 4","movie", 1971))
+    hm.add(record.Record("Do or do not, there is no trip.","SW 5","movie", 1971))
+
+    hm.find("SW 5")
+    hm.find("SW 6")
+
+    print(hm)
+
+
+def get_first_words(title:str) -> str | None:
+    """
+    Returns the first two words of a string.
+
+    If this fails, return nothing.
+    """
+
+    tokens = title.split(" ")
+    if len(tokens) < 3:
+        return title
+    else: # If there are 3 or more tokens, return the first two tokens concatenated.
+        returnable = ""
+        count = 0
+        for token in tokens:
+            count += 1
+
+            returnable += token + " "
+            if count == 2:
+                return returnable
+        
+        return
+    
+def run_words_test():
+    zero = ""
+    one = "Airplane!"
+    two = "Good Burger"
+    three = "An Unexpected Journey"
+    four = "Return of the King"
+
+    print(get_first_words(zero))
+    print(get_first_words(one))
+    print(get_first_words(two))
+    print(get_first_words(three))
+    print(get_first_words(four))
 
 def run_ll_delete_test():
     """
@@ -27,4 +76,6 @@ def run_ll_delete_test():
     print(ll)
 
 if __name__ == "__main__":
-    run_ll_delete_test()
+    # run_ll_delete_test()
+    # run_words_test()
+    run_hashmap_test()

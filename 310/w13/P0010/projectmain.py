@@ -2,9 +2,9 @@
 Driver code for P0010, the one about hash maps.
 
 @author jdeanes0
-@version 11/14/23
+@version 11/26/23
 
-11/25/23: Today I will be making the gameplay loop
+11/25/23: Today I will be making the program loop
 """
 
 from structures import hashmap
@@ -18,8 +18,8 @@ def info():
     print("-")
     print("-")
     print("There are 10 commands:")
-    print("add: Add a new entry into the hashtable.")
-    print("delete <quote>: Remove an entry.")
+    print("add: Add a new quote into the hashtable.")
+    print("delete <movie>: Remove all quotes from a movie from the hash table.")
     print("find <movie>: Print out all entries under a movie's name.")
     print("printHT: Prints the hashtable.")
     print("load: Prints the current and max load factors.")
@@ -27,9 +27,10 @@ def info():
     print("buckets: Prints the number of occupied buckets in the hashtable.")
     print("who: Prints the user's name.")
     print("help | ?: Prints information about the program.")
-    print("exist: Quits the program")
+    print("exit: Quits the program")
 
 def add(h: hashmap.HashMap):
+    """Gets additional information from the user to place a new quote into the hash table."""
     quote = input("quote> ")
     title = input("title> ")
     tom = input("type of media> ")
@@ -45,22 +46,24 @@ def add(h: hashmap.HashMap):
 
 def delete(h: hashmap.HashMap, param):
     """Deletes an entry in the hash table based on the value in :param:."""
-    h.delete(param)
+    truth = h.delete(param)
+    if truth:
+        print("Delete operation successful.")
+    else:
+        print("Could not find movie to delete.")
     
     return h
 
 def find(h: hashmap.HashMap, param):
     """Finds an entry in the hash table."""
     
-    print(h.find("param"))
+    h.find(param)
 
-# print is easy to do
+# print is easy to do, will not be it's own function.
 
-def get_ht_load():
-    pass
-
-def who():
-    pass
+def get_ht_load(h: hashmap.HashMap):
+    """Prints the current load on the hashtable."""
+    print(h.return_load())
 
 def load() -> hashmap.HashMap:
     """
@@ -91,9 +94,12 @@ def loop(h: hashmap.HashMap):
     # print(h)
 
     run_loop = True
+    uname = input("\n\n\nBut first, who are you?\n")
+
+    print("Hello " + str(uname))
 
     while (run_loop):
-        line = input("aReallyCoolGuy@hashprogram ~$ ").split(" ") # Split input on the command line
+        line = input(str(uname) + "@hashprogram ~$ ").split(" ") # Split input on the command line
 
         command = ""
         param = ""
@@ -116,10 +122,21 @@ def loop(h: hashmap.HashMap):
             case "delete":
                 h = delete(h, param)
             case "find":
-                h = find(h, param)
+                find(h, param)
+            case "printHT":
+                print(h)
+            case "load":
+                get_ht_load(h)
+            case "count":
+                print(h.count)
+            case "buckets":
+                print(h.buckets)
             case "help" | "?":
                 info()
-            case "quit":
+            case "who":
+                # print's the user's name
+                print(uname)
+            case "exit":
                 print("Goodbye!")
                 break
             case default:

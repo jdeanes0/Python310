@@ -3,7 +3,7 @@ Class to hold the multi-mapping data structure for the hash map, a linked list.
 The linked list uses records as their nodes.
 
 @author jdeanes0
-@version 11/21/23
+@version 11/26/23
 """
 
 # from record import Record
@@ -51,6 +51,44 @@ class LL:
             self.head = Node(r) # Newest node becomes the head
             self.head.next = old_head # Set the new head's node to the rest of the linked list
             self.count += 1
+
+    def delete_by_movie(self, title: str) -> bool:
+        """
+        Will delete the first quote in the linked list that it sees from a particular movie.
+        """
+        # Traveler!
+        tv = self.head # current node we're on
+        target = None # node to be removed
+        travel_count = 0 # keeps track of where we are in the linked list
+        bridge = None # node after the target if it exists to set the next to be
+        while tv:
+            travel_count += 1
+            if title.lower() in tv.data.get_movie().lower():
+                target = tv
+                bridge = tv.next
+                break
+            tv = tv.next
+        
+        if target: # If the node to be deleted exists, do work to delete it.
+            # Special case for being the first in the linked list, just change self.head.
+            if self.head == target:
+                self.head = target.next
+                return True
+
+            # Now move to right before the element in question.
+            tv2 = self.head
+            while tv2:
+                if tv2.next == target:
+                    # If we have found the target, check if tv2.next.next exists
+                    # If it does not, terminate at None.
+                    if travel_count == self.count: # If the element to be deleted is at the end of the list
+                        tv2.next = None
+                    else:
+                        tv2.next = bridge
+                tv2 = tv2.next
+            return True
+        else:
+            return False
     
     def delete(self, moviequote: str) -> bool:
         """
@@ -91,21 +129,24 @@ class LL:
         else:
             return False
 
-    def find(self, moviequote: str) -> bool:
+    def find(self, title: str) -> bool:
         """
         Checks to see if a item is in a list
         """
 
         # Traveler!
         tv = self.head
+        quotes_found = 0
         while tv: # will traverse as long as the node is not None
-            if moviequote.lower() in tv.data.get_quote().lower():
+            if title.lower() in tv.data.get_movie().lower():
                 print(tv.data)
-                return True
-            # The movie was found and printed, leave the list and let the HashMap know as well with the True return
+                quotes_found += 1
+            # The movie was found and printed, find more.
             tv = tv.next
 
-        return False # If the movie is not found, return false.
+        if quotes_found == 0:
+            return False # If the movie is not found, return false.
+        return True 
     
     def __str__(self) -> str:
         final = ""

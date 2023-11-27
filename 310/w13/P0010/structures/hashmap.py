@@ -2,7 +2,7 @@
 Contains the implementation for the required Hash Map.
 
 @author jdeanes0
-@version 11//23
+@version 11/26/23
 """
 
 from structures.record import Record
@@ -22,28 +22,46 @@ class HashMap:
 
     def __init__(self):
         self.count = 0
+        self.buckets = 0
         self.size = 997
         self.table = [LL() for _ in range(self.size)]
 
-    def find(self, title: str):
+    def return_load(self):
+        return self.buckets / self.size
+
+    def find(self, title: str) -> bool:
         """Prints out all entries for a particular movie name"""
         title = self.__get_first_words(title)
 
-        s = self.table[self.__hash(title)]
+        bucket = self.table[self.__hash(title)]
+        if bucket.head is None:
+            return False # early exit if the movie does not exist.
+        
+        bucket.find(title)
 
-        if s.head is not None:
-            s.find(title)
-        else:
-            print("Could not find requested movie.")
+        # there_are_movies_left = True
+        # last_out = ""
+        # out = ""
+        # while there_are_movies_left: # Ok but look at this steve. Look at this readability!!! It literally doesn't get better than this!!!
+        #     there_are_movies_left, out = bucket.find(title)
+        #     if out == last_out:
+        #         return True # Done printing if we get duplicate outputs.
+
+        #     print(out)
+        #     last_out = out
+        return True
 
     def add(self, r: Record):
         """Adds a Record to the table"""
 
         target = self.__hash(r.get_movie())
         print("target:", target)
+        if self.table[target].head is None: # Increment buckets for later use if one is being created.
+            self.buckets += 1
+
         # Add to the already-present linked list
         print("add to existing")
-        existinglist= self.table[target]
+        existinglist = self.table[target]
         existinglist.add(r)
 
         self.table[target] = existinglist
@@ -51,17 +69,29 @@ class HashMap:
         self.count += 1
         # Increment count for later
 
-    def delete(self, quote: str) -> bool:
-        """Go through all non-empty buckets in the hashtable and try to delete the requested quote."""
-        isdeleted = False
-        for bucket in self.table:
-            if bucket.head is not None:
-                isdeleted = bucket.delete(quote)
+    def delete(self, title: str) -> bool:
+        """
+        Goes to a specific hash to delete all movies in the hash.
+        
+        The title has to be EXACT or the quotes will not be found.
+        """
 
-                if isdeleted == True:
-                    return True
+        # Check if the specified movie exists in that bucket
+        target = self.__hash(title)
+        if self.table[target].head is None:
+            return False # Return False upon not finding the bucket.
+        
+        # At this point, the movie exists AND there are buckets to go through.
 
-        return False
+        there_are_movies_left = True
+        while there_are_movies_left: # Ok but look at this steve. Look at this readability!!! It literally doesn't get better than this!!!
+            there_are_movies_left = self.table[target].delete_by_movie(title)
+            self.count -= 1
+
+        if self.table[target].head is None: # If the result of the repeated deletions clears the bucket, update it.
+            self.buckets -= 1
+
+        return True # Delete until there are none left, and return True for success
 
     def __get_first_words(self, title:str) -> str:
         """

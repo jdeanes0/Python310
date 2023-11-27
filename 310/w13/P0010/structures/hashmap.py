@@ -2,7 +2,7 @@
 Contains the implementation for the required Hash Map.
 
 @author jdeanes0
-@version 11/26/23
+@version 11/27/23
 """
 
 from structures.record import Record
@@ -53,14 +53,13 @@ class HashMap:
 
     def add(self, r: Record):
         """Adds a Record to the table"""
+        title = self.__get_first_words(r.get_movie())
 
-        target = self.__hash(r.get_movie())
-        print("target:", target)
+        target = self.__hash(title)
         if self.table[target].head is None: # Increment buckets for later use if one is being created.
             self.buckets += 1
 
         # Add to the already-present linked list
-        print("add to existing")
         existinglist = self.table[target]
         existinglist.add(r)
 
@@ -77,6 +76,8 @@ class HashMap:
         """
 
         # Check if the specified movie exists in that bucket
+        title = self.__get_first_words(title)
+
         target = self.__hash(title)
         if self.table[target].head is None:
             return False # Return False upon not finding the bucket.
@@ -130,8 +131,7 @@ class HashMap:
         loc = 0
         for i in self.table:
             if i.head is not None:
-                print("found an entry")
-                returnable += "index " + str(loc) + ": " + str(i) + " "
+                returnable += "index " + str(loc) + ": " + str(i) + "\n"
             loc += 1
 
         return returnable

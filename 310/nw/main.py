@@ -180,7 +180,7 @@ class VoiceRecorder:
     def read_api_from_file(self):
         # Read API key from the text file
         try:
-            with open("api_key.txt", "r") as file:
+            with open(r"310\nw\api_key.txt", "r") as file:
                 api_key = file.read().strip()
                 try:
                     # Test call to the OpenAI API to check if the API key works
@@ -189,10 +189,13 @@ class VoiceRecorder:
                     openai.api_key = api_key
                 except openai.error.AuthenticationError:
                     self.valid_key = False
+                    print("Could not authenticate.")
                 except openai.error.RateLimitError:
                     self.valid_key = False
+                    print("Rate-limited")
         except FileNotFoundError:
             self.valid_key = False
+            print("Could not find the key")
 
     # Record Click handler function
     # This function is called when the user selects the microphone button.
@@ -542,6 +545,7 @@ class VoiceRecorder:
     # The following function makes a call to the GPT-3.5-Turbo API with a summarization prompt. Takes audio transcript in as parameter.
     def summarize_transcription(self, transcript):
         # Completes a chat simulation, utilizes the audio transcript
+        summarize_start = time.time()
         completion = openai.ChatCompletion.create(
             model="gpt-3.5-turbo",
             messages=[
@@ -553,6 +557,8 @@ class VoiceRecorder:
         )
         # Recieves the summarizaed text from the chat simulation
         summarized_text = completion.choices[0].message['content']
+        summarize_end = time.time() - summarize_start
+        print(summarize_end)
         # Create output file
         output_file = self.text_output.get()
         with open(output_file, 'w') as file:

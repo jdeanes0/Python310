@@ -10,6 +10,16 @@ import tkinter as tk
 from tkinter import ttk
 import pyaudio
 import openai
+from openai import OpenAI
+
+client = OpenAI(api_key="")
+try:
+    # Test call to the OpenAI API to check if the API key works
+    client.completions.create(model="davinci-002", prompt="Test")
+except openai.AuthenticationError:
+    print("Could not authenticate.")
+except openai.RateLimitError:
+    print("Rate-limited")
 import whisper
 import json
 
@@ -24,7 +34,7 @@ class VoiceRecorder:
         self.root.title("Medical Summarization Prototype")
         self.root.resizable(False, False)
         # Checks for user API key
-        self.read_api_from_file()
+        # self.superclient = OpenAI(api_key=self.read_api_from_file())
 
         # Creates label for input audio file
         self.label_input = tk.Label(self.root, text="Audio Input File Name (.MP3 file):")
@@ -182,15 +192,17 @@ class VoiceRecorder:
         try:
             with open(r"310\nw\api_key.txt", "r") as file:
                 api_key = file.read().strip()
+
                 try:
                     # Test call to the OpenAI API to check if the API key works
-                    openai.Completion.create(engine="davinci-002", prompt="Test", max_tokens=5, api_key=api_key)
+                    client = OpenAI(api_key=api_key)
+                    client.completions.create(model="davinci-002", prompt="Test")
                     self.valid_key = True
-                    openai.api_key = api_key
-                except openai.error.AuthenticationError:
+                    return api_key
+                except openai.AuthenticationError:
                     self.valid_key = False
                     print("Could not authenticate.")
-                except openai.error.RateLimitError:
+                except openai.RateLimitError:
                     self.valid_key = False
                     print("Rate-limited")
         except FileNotFoundError:
@@ -368,6 +380,7 @@ class VoiceRecorder:
     def transcribe_process(self):
         # Specify the path to the audio file
         file_path = self.text_input.get()
+        print(file_path)
         # Tell user that the transcription is starting and that they should not exit the application
         self.msglabel.config(text="Transcribing '"+file_path+"'. Do not exit the application.")
         # Disable the text_input field
@@ -414,9 +427,9 @@ class VoiceRecorder:
             # Transcribe the text from the audio (specified by the file_path) and place the string into result
             result = model.transcribe(file_path)
         elif self.largev2_checkbox_var.get():
-            transcript = openai.Audio.transcribe("whisper-1", audio_file)
+            transcript = client.audio.transcribe("whisper-1", audio_file)
             # Access the 'text' field directly from the OpenAIObject
-            transcribed_text = transcript['text']
+            transcribed_text = transcript.text
         else:
             self.msglabel.config(text="A Whisper model must be selected!")
             self.button.config(state='normal')
@@ -546,17 +559,15 @@ class VoiceRecorder:
     def summarize_transcription(self, transcript):
         # Completes a chat simulation, utilizes the audio transcript
         summarize_start = time.time()
-        completion = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "You are an attentive note-keeper."},
-                {"role": "user", "content": "Pretend that you are an insurance provider and you need to summarize an interview between patient and provider. Please create the summary using the format “SUBJECTIVE, MEDICATIONS, ALLERGIES, FAMILY HISTORY, LIFESTYLE HISTORY, OBJECTIVE, HEENT, ASSESSMENT,  PLAN.” Each category gets its own new line. After you read the interview that I will provide you with, you will write a paragraph for subjective, and a few sentences each for medications (anything that the patient currently takes that is over-the-counter or prescribed), allergies, family history, lifestyle history (alcohol/tobacco/other drug use), objective (The patient’s physical characteristics, this field is not to be left blank and you must say that there is no information if there truly is none), heent, assessment, and a numbered list for plan. (HEENT stands for HEAD, EYES, EARS, NOSE, and THROAT but present it as HEENT in the response. This category pertains to abnormal symptoms pertaining to these body parts, such as sore throat, headache, runny nose, earache, pink eye, etc.) Please provide a summary based solely on the information given in the interview. Do not include any additional tests or procedures that were not mentioned by the doctor."},
-                {"role": "assistant", "content": "Understood. Please provide the transcript of the fake interview, and I will proceed to generate the summary as per the specified format."},
-                {"role": "user", "content": transcript},
-            ]
-        )
+        completion = client.chat.completions.create(model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are an attentive note-keeper."},
+            {"role": "user", "content": "Pretend that you are an insurance provider and you need to summarize an interview between patient and provider. Please create the summary using the format “SUBJECTIVE, MEDICATIONS, ALLERGIES, FAMILY HISTORY, LIFESTYLE HISTORY, OBJECTIVE, HEENT, ASSESSMENT,  PLAN.” Each category gets its own new line. After you read the interview that I will provide you with, you will write a paragraph for subjective, and a few sentences each for medications (anything that the patient currently takes that is over-the-counter or prescribed), allergies, family history, lifestyle history (alcohol/tobacco/other drug use), objective (The patient’s physical characteristics, this field is not to be left blank and you must say that there is no information if there truly is none), heent, assessment, and a numbered list for plan. (HEENT stands for HEAD, EYES, EARS, NOSE, and THROAT but present it as HEENT in the response. This category pertains to abnormal symptoms pertaining to these body parts, such as sore throat, headache, runny nose, earache, pink eye, etc.) Please provide a summary based solely on the information given in the interview. Do not include any additional tests or procedures that were not mentioned by the doctor."},
+            {"role": "assistant", "content": "Understood. Please provide the transcript of the fake interview, and I will proceed to generate the summary as per the specified format."},
+            {"role": "user", "content": transcript},
+        ])
         # Recieves the summarizaed text from the chat simulation
-        summarized_text = completion.choices[0].message['content']
+        summarized_text = completion.choices[0].message.content
         summarize_end = time.time() - summarize_start
         print(summarize_end)
         # Create output file
